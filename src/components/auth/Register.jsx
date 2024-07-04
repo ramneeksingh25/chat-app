@@ -56,7 +56,11 @@ const Register = () => {
 	return (
 		<div>
 			<div className="flex items-center justify-center w-full h-screen select-none">
-				<div className={boxStyle}>
+				<div className={boxStyle} onKeyDown={(e)=>{
+				if(e.key === "Enter"){
+                    signUp();
+                }
+			}}>
 					<div className="text-center">
 						<div className="mt-2">
 							<h3 className={` text-xl font-semibold  ${textStyle} `}>

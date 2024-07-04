@@ -50,7 +50,11 @@ const Login = () => {
 	});
 	return (
 		<div className="flex items-center justify-center w-full h-screen">
-			<div className={boxStyle}>
+			<div className={boxStyle} onKeyDown={(e)=>{
+				if(e.key === "Enter"){
+                    signIn();
+                }
+			}}>
 				<div className="text-center">
 					<div className="mt-2">
 						<h3 className="text-xl font-semibold sm:text-2xl select-none underline decoration-pink-500/70 hover:decoration-indigo-700/70 transition duration-1000">
