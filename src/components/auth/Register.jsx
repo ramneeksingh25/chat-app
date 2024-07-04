@@ -34,7 +34,8 @@ const Register = () => {
 				await setDoc(doc(db, "Users", user.uid), {
 				  email: user.email,
 				  displayName: name,
-				  photo:""
+				  photoURL:"",
+				  friends:[],
 				});
 			  }
 
@@ -50,7 +51,9 @@ const Register = () => {
 	auth.onAuthStateChanged((user) => {
 		if (user) {
 			setSigningIn(true);
-			navigate("/home");
+			setTimeout(() => {
+				navigate("/home");
+			}, 1000);
 		}
 	});
 	return (

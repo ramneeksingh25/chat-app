@@ -4,7 +4,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import Friend from '../components/Friend';
 
 const NewFriend = () => {
-    const [errorMessage,setErrorMessage] =useState("Error");
+    const [errorMessage,setErrorMessage] =useState("");
     const [isSearching, setIsSearching] = useState(false);
     const [friendEmail, setFriendEmail] = useState("");
     const [FriendsList, setFriendsList] = useState([]);
@@ -40,7 +40,12 @@ const NewFriend = () => {
 		"p-2 m-0 w-full text-gray-600 bg-white outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 border-slate-300";
   return (
 
-    <div className='w-96 text-3xl text-indigo-800 dark:text-indigo-300 select-none space-y-2 p-6 shadow-xl rounded-xl bg-zinc-200/30 dark:bg-zinc-800/80 backdrop-blur-30'>
+    <div className='w-96 text-3xl text-indigo-800 dark:text-indigo-300 select-none space-y-2 p-6 shadow-xl rounded-xl bg-zinc-200/30 dark:bg-zinc-800/80 backdrop-blur-30'
+        onKeyDown={(e)=>{
+        if(e.key === "Enter"){
+            findFriend();
+        }}}
+    >
         <h1 className='font-semibold'>Find Friends</h1>
         <div className='flex flex-col gap-0'>
             <label className="text-xl mb-0 font-bold underline decoration-pink-500/70 hover:decoration-indigo-700/70 transition duration-500">Email</label>
@@ -56,9 +61,10 @@ const NewFriend = () => {
 					}`}
             onClick={()=>{
                 findFriend();
-            }}            
+            }}
         >Add Friend</button>
         {FriendsList.map((friend,index)=>{
+            // console.log(friend);
             return <Friend friend={friend} add={true} key={index}/>
         })}
     </div>
