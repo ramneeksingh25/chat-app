@@ -7,7 +7,7 @@ const AddFriend = () => {
   }
   return (
     <div className='block sm:block md:flex lg:flex justify-between items-center'>
-        <h1 className='font-black text-2xl md:text-3xl lg:text-3xl sm:text-2xl '>Friends</h1>
+        <h1 className='font-black text-2xl md:text-3xl lg:text-3xl sm:text-2xl '>Your Friends</h1>
         <span className='hover:underline transition cursor-pointer duration-500' onClick={addNew}>
           Add Friend    
         </span>

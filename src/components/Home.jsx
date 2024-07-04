@@ -5,6 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import Loading from "./Loading";
 import FriendList from "./home/List/FriendList";
 import List from "./home/List";
+import Chats from "./chat";
 export const userContext = createContext({
   uid:"1234",
   displayName:"John Doe",
@@ -13,6 +14,7 @@ export const userContext = createContext({
 });
 const Home = () => {
 	const [user, setUser] = useState(null);
+	const [selected,setSelected]=useState("");
 	const [loading, setLoading] = useState(true);
 	setTimeout(() => {
 		console.log(auth.currentUser);
@@ -27,18 +29,18 @@ const Home = () => {
 	) : (
 		<>
 			{/* {JSON.stringify(user)} */}
-			<userContext.Provider value={user}>
-				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-2 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-300 select-none">
+			<userContext.Provider value={{user,selected,setSelected}}>
+				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-3 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-300 select-none">
 					<List />
-					<div className="col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 bg-zinc-800/60 rounded-md text-white relative">
-						<div>Chats</div>
+					<div className={`col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 relative ${profileVisible?" ":"lg:col-span-3"}`}>
+						<Chats/>
 					</div>
-					<div
+					{profileVisible&&<div
 						className={`sm:hidden md:hidden hidden ${
 							profileVisible ? "lg:block" : "lg:hidden"
 						} `}>
-						<div>Profile</div>
-					</div>
+							Details
+					</div>}
 				</div>
 			</userContext.Provider>
 		</>
