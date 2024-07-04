@@ -3,7 +3,7 @@ import Friend from '../components/Friend'
 
 const FriendList = () => {
   return (
-    <div className=' max-h-[70vh] overflow-y-scroll rounded-lg overflow-x-hidden border border-cyan-400'>
+    <div className=' mt-5 max-h-[80%] overflow-y-scroll rounded-lg overflow-x-hidden border border-cyan-400'>
         {new Array(16).fill('').map((_, index) => <Friend key={index}/>)}
     </div>
   )
