@@ -28,10 +28,8 @@ const Home = () => {
 		<>
 			{/* {JSON.stringify(user)} */}
 			<userContext.Provider value={user}>
-				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-2 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-800 dark:text-indigo-300 select-none">
-					<div>
-						<List />
-					</div>
+				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-2 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-300 select-none">
+					<List />
 					<div className="col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 bg-zinc-800/60 rounded-md text-white relative">
 						<div>Chats</div>
 					</div>

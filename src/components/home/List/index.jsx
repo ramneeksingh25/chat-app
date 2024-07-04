@@ -7,7 +7,7 @@ import AddFriend from "./AddFriend";
 const List = () => {
 	const user = useContext(userContext);
 	return (
-		<div className="h-[100vh]">
+		<div className="h-[98vh] p-3 shadow-xl rounded-xl bg-indigo-500/50 dark:bg-zinc-800/80 backdrop-blur-30">
 			<ProfileInfo name={user.displayName} />
 			<AddFriend />
 			<FriendList />
