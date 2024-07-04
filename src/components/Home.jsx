@@ -21,7 +21,9 @@ const Home = () => {
 	}, 1000);
 	const [profileVisible, setProfileVisible] = useState(true);
 	return loading ? (
-		<Loading />
+    <div className="flex items-center justify-center h-screen text-[10vh] text-indigo-800 dark:text-indigo-300 animate-spin-slow">
+      <Loading />
+    </div>
 	) : (
 		<>
 			{/* {JSON.stringify(user)} */}
