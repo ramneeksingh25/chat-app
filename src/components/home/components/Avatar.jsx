@@ -2,7 +2,7 @@ const Avatar = ({ name }) => {
 	const nameArray = name.split(" ");
 	const initials = nameArray.map((name) => name.charAt(0)).join("");
 	return (
-		<div className="rounded-full bg-black text-white w-fit p-2">{initials}</div>
+		<div className="h-10 w-10 flex items-center justify-center rounded-full select-none bg-white text-black dark:bg-black dark:text-white p-2">{initials}</div>
 	);
 };
 

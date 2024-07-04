@@ -1,20 +1,20 @@
 import { initializeApp } from "firebase/app";
-import { browserSessionPersistence, getAuth, setPersistence } from "firebase/auth";
+import { browserLocalPersistence, getAuth, setPersistence } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD_96sQ_xjpq1t1ito3kFcXsMRIa0cJzUE",
-  authDomain: "chat-cf547.firebaseapp.com",
-  projectId: "chat-cf547",
-  storageBucket: "chat-cf547.appspot.com",
-  messagingSenderId: "581878946405",
-  appId: "1:581878946405:web:21e1ab6573ed3fe13a048c"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGE_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-setPersistence(auth, browserSessionPersistence)
+setPersistence(auth,browserLocalPersistence)
 export const googleProvider = new GoogleAuthProvider();
 
 export const db = getFirestore(app);
