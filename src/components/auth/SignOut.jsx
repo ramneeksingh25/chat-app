@@ -15,7 +15,7 @@ const SignOut = () => {
         setSignedIn(false);
       }}
 	  className={`text-white w-28 flex items-center justify-center gap-x-3 py-1 sm:py-2 md:py-2 lg:py-2.5 rounded-lg text-[100%]
-		 font-medium bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-700 hover:to-pink-700 hover:shadow-xl transition duration-300 ml-3`}
+		 font-medium bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-700 hover:to-pink-700 hover:text-zinc-200 hover:shadow-xl transition-all duration-300 ml-3`}
 	  >Sign Out</button>;
 };
 

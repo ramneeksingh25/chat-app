@@ -24,6 +24,7 @@ const Home = () => {
 	const [loading, setLoading] = useState(true);
 	const [rerender,setRerender]=useState(false);
 	const navigate = useNavigate();
+	const [selected,setSelected] = useState(null);
 	const fetchUserFromDB = async () => {
 		const q = query(collection(db,"Users"),where("email","==",auth?.currentUser?.email));
 		const querySnapshot = await getDocs(q);
@@ -56,11 +57,15 @@ const Home = () => {
 	onSnapshot(query(collection(db,"Users"),where("email","==",email)),(snapshot)=>{
 		snapshot.docChanges().forEach((change)=>{
 			if (change.type === "modified") {
-				console.log(change);
+				// console.log(change);
                 setRerender(!rerender);
             }
 		})
 	})
+	const setUserChat = (s)=>{
+		console.log("selecting ",s);
+		setSelected(s);
+	}
 	const [profileVisible, setProfileVisible] = useState(true);
 	return loading ? (
     <div className="flex items-center justify-center h-screen text-[10vh]">
@@ -68,7 +73,7 @@ const Home = () => {
     </div>
 	) : (
 		<>
-			<userContext.Provider value={{user,userDB,userFriendsArray,userRequestsArray,id,email,setRerender}}>
+			<userContext.Provider value={{user,userDB,userFriendsArray,selected,setUserChat,userRequestsArray,id,email,setRerender}}>
 				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-3 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-200 select-none">
 					<List />
 					<div className={`col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 relative ${profileVisible?" ":"lg:col-span-3"}`}>

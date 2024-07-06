@@ -12,7 +12,7 @@ const ThemeSwitch = () => {
     },[theme])
 	return (
 		<div
-			className="cursor-pointer hover:underline absolute dark:text-indigo-400 text-orange-400 bg-zinc-900 transition-transform duration-1000 rounded-full p-2 right-1 top-2 z-10"
+			className="cursor-pointer hover:underline absolute hover:text-white hover:dark:bg-indigo-400 dark:text-indigo-400 hover:bg-orange-400 text-orange-400 bg-zinc-900 transition-colors duration-500 rounded-full p-2 right-1 top-2 z-10"
 			onClick={()=>{setTheme(!theme)}}>
 			{theme?<FaMoon/>:<FaSun/>}
 		</div>
