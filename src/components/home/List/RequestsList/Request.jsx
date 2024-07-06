@@ -21,7 +21,6 @@ const Request = ({ reqEmail }) => {
 	const [friendRef, setFriendRef] = useState(null);
 	const acceptFriend = async () => {
 		console.log("Accept Friend Request" + reqEmail);
-
 		await updateDoc(userRef, {
 			friends: arrayUnion(reqEmail),
 			requests: arrayRemove(reqEmail),
@@ -35,8 +34,11 @@ const Request = ({ reqEmail }) => {
 	const rejectFriend = async () => {
 		console.log("Reject Friend Request" + reqEmail);
 		await updateDoc(userRef, {
-			requests: arrayRemove(reqEmail),
+			requests: arrayRemove(reqEmail)
 		});
+		await updateDoc(friendRef,{
+			sentReq: arrayRemove(reqEmail)
+		})
     await updateDoc(friendRef, {
       sentReq: arrayRemove(email)
     });

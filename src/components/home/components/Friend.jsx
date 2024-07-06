@@ -20,7 +20,6 @@ import {
 import { db } from "../../../config/firebase";
 import Loading from "../../Loading";
 import Request from "../List/RequestsList/Request";
-import { BsChat } from "react-icons/bs";
 
 const Friend = ({ email, friend, add, isSelected, request }) => {
 	const { user, setSelected } = useContext(userContext);

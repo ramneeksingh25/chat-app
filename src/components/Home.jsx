@@ -4,6 +4,7 @@ import Loading from "./Loading";
 import List from "./home/List";
 import Chats from "./home/chat";
 import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 export const userContext = createContext({
   uid:"1234",
   displayName:"John Doe",
@@ -22,7 +23,7 @@ const Home = () => {
 	const [userRequestsArray,setUserRequestsArray]=useState([]);
 	const [loading, setLoading] = useState(true);
 	const [rerender,setRerender]=useState(false);
-	const [dbrefresh,setRefresh]=useState(false);
+	const navigate = useNavigate();
 	const fetchUserFromDB = async () => {
 		const q = query(collection(db,"Users"),where("email","==",auth?.currentUser?.email));
 		const querySnapshot = await getDocs(q);
@@ -32,18 +33,21 @@ const Home = () => {
 		setUserFriendsArray(data[0].friends);
 		setUserRequestsArray(data[0].requests);
 	}
+	auth.onAuthStateChanged((user)=>{
+		if (!user) {
+			navigate("/")			
+		}
+	})
 	useEffect(()=>{
 		console.log("Home rendered");
 		setTimeout(() => {
-			console.log(auth.currentUser.uid);
+			// console.log(auth.currentUser.uid);
 			setID(auth.currentUser.uid);
 			setEmail(auth.currentUser.email);
-			fetchUserFromDB();
+			fetchUserFromDB()
+			
 		},1000);
 	},[rerender])
-	useEffect(()=>{
-		console.log("rerender");
-	},[dbrefresh])
 	useEffect(()=>{
 		if (email) {
 			setLoading(false);
@@ -52,6 +56,7 @@ const Home = () => {
 	onSnapshot(query(collection(db,"Users"),where("email","==",email)),(snapshot)=>{
 		snapshot.docChanges().forEach((change)=>{
 			if (change.type === "modified") {
+				console.log(change);
                 setRerender(!rerender);
             }
 		})

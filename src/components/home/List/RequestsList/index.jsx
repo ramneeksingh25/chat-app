@@ -16,7 +16,6 @@ const RequestList = () => {
             <Friend request={request}/>
           </div>
         })}
-        {/* {JSON.stringify(requests)} */}
       </>
         :"No Requests"}
     </div>
