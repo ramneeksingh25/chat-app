@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
-import SignOut from '../../auth/SignOut'
-import { auth } from '../../../config/firebase';
-import Loading from '../../Loading';
-import { userContext } from '../../Home';
-import Avatar from '../components/Avatar';
+import React, { useContext } from 'react'
+import SignOut from '../../../auth/SignOut'
+import Avatar from '../../components/Avatar';
+import { auth } from '../../../../config/firebase';
+import Loading from '../../../Loading';
+import { userContext } from '../../../Home';
 
 const ProfileInfo = () => {
   const {user} = useContext(userContext);

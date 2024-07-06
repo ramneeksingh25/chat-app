@@ -22,14 +22,14 @@ const Home = () => {
 		// console.log(userFriendsArray);
 		// console.log(user);
 		setLoading(false);
-	}, 1000);
+	}, 2000);
 	const fetchUsers = async () => {
 		await getDocs(collection(db, "Users"))
 		.then((querySnapshot)=>{               
                 const newData = querySnapshot.docs
 					// .filter((doc)=>userFriendsArray?.includes(doc.id))
                     .map((doc) => ({...doc.data(), id:doc.id }));
-                console.log(newData);
+                // console.log(newData);
             })
     }
 	useEffect(()=>{
@@ -44,7 +44,7 @@ const Home = () => {
 		<>
 			{/* {JSON.stringify(user)} */}
 			<userContext.Provider value={{user,selected,setSelected}}>
-				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-3 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-300 select-none">
+				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-3 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-200 select-none">
 					<List />
 					<div className={`col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 relative ${profileVisible?" ":"lg:col-span-3"}`}>
 						<Chats/>
