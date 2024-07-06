@@ -14,29 +14,27 @@ import {
 	collection,
 	doc,
 	getDocs,
-	onSnapshot,
 	query,
 	updateDoc,
-  where,
+	where,
 } from "firebase/firestore";
 import { db } from "../../../config/firebase";
 import Loading from "../../Loading";
+import Request from "../List/RequestsList/Request";
 
-const Friend = ({ email,friend, add, isSelected }) => {
+const Friend = ({ email, friend, add, isSelected, request }) => {
 	const { user, setSelected } = useContext(userContext);
-  const [current,setCurrent]=useState({});
-	const name = friend?.displayName || current?.displayName
+	const [current, setCurrent] = useState({});
+	const name = friend?.displayName || current?.displayName;
 	const iconStyle =
 		"hover:bg-indigo-800 rounded-full cursor-pointer hover:text-zinc-200 dark:hover:text-zinc-200 transition-all duration-200 p-2 text-[170%]";
 	const [count, setCount] = useState(0);
-	const [tasks, setTasks] = useState([]);
 	const getUserFromDB = async () => {
 		if (typeof email == "string") {
-			const q = query(collection(db, "Users"),where("email","==",email));
-      const querySnapshot = await getDocs(q);
-      const data=querySnapshot.docs.map(doc=>doc.data());
-    //   console.log(data[0]);
-      setCurrent(data[0]);
+			const q = query(collection(db, "Users"), where("email", "==", email));
+			const querySnapshot = await getDocs(q);
+			const data = querySnapshot.docs.map((doc) => doc.data());
+			setCurrent(data[0]);
 		}
 	};
 	const addFriend = async () => {
@@ -59,8 +57,13 @@ const Friend = ({ email,friend, add, isSelected }) => {
 		console.log("Friend request sent to " + friend.id);
 	};
 	useEffect(() => {
+        if (request) {
+            email=request;
+        }
+    }, [request]);
+	useEffect(() => {
 		getUserFromDB();
-		// console.log(tasks);
+
 	}, [name]);
 	return (
 		<div
@@ -68,20 +71,23 @@ const Friend = ({ email,friend, add, isSelected }) => {
 				isSelected && " bg-zinc-900"
 			}`}
 			onClick={() => {
-				console.log(friend);
+				// console.log(friend);
 				setSelected(friend);
 			}}>
-			{/* <img src= alt='Ramneek' className='w-12 h-12 rounded-full'/> */}
-      {/* {JSON.stringify(current)} */}
 			<div className="flex items-center gap-2 mr-0 sm:mr-0 md:mr-0 lg:mr-2">
 				<Avatar name={name} />
 				<h1 className="hidden sm:hidden md:hidden lg:block">
-					{name|| <>
-            <Loading/>
-          </>}
+					{name || (
+						<>
+							<Loading />
+						</>
+					)}
 				</h1>
 			</div>
 			<div className="flex items-center text-2xl">
+				{request?<>
+					<Request email={request}/>
+				</>:<>
 				{!add ? (
 					<div className="hidden sm:hidden md:block lg:flex items-center justify-center">
 						<MdCall className={iconStyle} />
@@ -119,7 +125,7 @@ const Friend = ({ email,friend, add, isSelected }) => {
 							}}
 						/>
 					</div>
-				)}
+				)}</>}
 			</div>
 		</div>
 	);

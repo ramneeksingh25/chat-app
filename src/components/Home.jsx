@@ -4,7 +4,6 @@ import Loading from "./Loading";
 import List from "./home/List";
 import Chats from "./home/chat";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { FaUserTimes } from "react-icons/fa";
 export const userContext = createContext({
   uid:"1234",
   displayName:"John Doe",
@@ -20,6 +19,7 @@ const Home = () => {
 	const [userDB,setUserDB] = useState(null);
 	const [selected,setSelected]=useState("");
 	const [userFriendsArray,setUserFriendsArray]=useState([]);
+	const [userRequestsArray,setUserRequestsArray]=useState([]);
 	const [loading, setLoading] = useState(true);
 	const fetchUserFromDB = async () => {
 		const q = query(collection(db,"Users"),where("email","==",auth?.currentUser?.email));
@@ -29,6 +29,7 @@ const Home = () => {
 		setUserDB(data[0]);
 		setUser(auth.currentUser);
 		setUserFriendsArray(data[0].friends);
+		setUserRequestsArray(data[0].requests);
 	}
 	useEffect(()=>{
 		setTimeout(() => {
@@ -44,13 +45,13 @@ const Home = () => {
 	},[email])
 	const [profileVisible, setProfileVisible] = useState(true);
 	return loading ? (
-    <div className="flex items-center justify-center h-screen text-[10vh] text-indigo-800 dark:text-indigo-300 animate-spin-slow">
+    <div className="flex items-center justify-center h-screen text-[10vh]">
       <Loading />
     </div>
 	) : (
 		<>
 			{JSON.stringify(userFriendsArray)}
-			<userContext.Provider value={{user,userDB,userFriendsArray,selected,setSelected}}>
+			<userContext.Provider value={{user,userDB,userFriendsArray,userRequestsArray,selected,setSelected}}>
 				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-3 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-200 select-none">
 					<List />
 					<div className={`col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 relative ${profileVisible?" ":"lg:col-span-3"}`}>

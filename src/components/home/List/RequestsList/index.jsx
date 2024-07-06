@@ -1,13 +1,24 @@
-import React, { useContext } from 'react'
-import { userContext } from '../../../Home'
+import React, { useContext, useEffect, useState } from 'react';
+import { userContext } from '../../../Home';
+import Friend from '../../components/Friend';
 
 const RequestList = () => {
-  const {user}=useContext(userContext);
-  
+  const [requests,setRequests]= useState(null);
+  const {userRequestsArray}=useContext(userContext);
+  useEffect(()=>{
+    setRequests(userRequestsArray);
+  },[userRequestsArray])
   return (
     <div>
-      {JSON.stringify(user)}
-      {console.log(user)}
+      {requests?<>
+        {requests.map((request)=>{
+          return<div key={request}>
+            <Friend request={request}/>
+          </div>
+        })}
+        {/* {JSON.stringify(requests)} */}
+      </>
+        :"No Requests"}
     </div>
   )
 }
