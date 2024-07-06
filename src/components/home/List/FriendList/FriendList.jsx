@@ -23,6 +23,7 @@ const FriendList = () => {
         {JSON.stringify(friendArray)}
         {friendArray?friendArray.map((friend,index)=>{
             // console.log(friend);
+            console.log(friend);
           return<Friend key={index} friend={friend}/>}):"No Friends... Add Some"}
         {/* {new Array(16).fill('').map((_, index) => <Friend key={index} isSelected={selected}/>)} */}
     </div>

@@ -3,10 +3,9 @@ import { BiSearch } from 'react-icons/bi'
 
 const Search = () => {
   return (
-    <div className='bg-pink flex items-center justify-between flex-1 bg-zinc-200 px-3 py-1 rounded-full text-zinc-600'>
-        <input type="text" className='bg-zinc-200 focus:border-none' />
+    <div className='bg-pink hidden items-center justify-between w-fit bg-zinc-200 px-3 py-1 rounded-full text-zinc-600 sm:hidden lg:flex md:flex'>
+        <input type="text" className='w-[20%] bg-zinc-200 focus:border-none' />
         <BiSearch className='cursor-pointer'/>
-
     </div>
   )
 }
