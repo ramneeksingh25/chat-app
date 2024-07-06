@@ -15,29 +15,31 @@ export const userContext = createContext({
 });
 const Home = () => {
 	const [email,setEmail]=useState(null);
+	const [id,setID]=useState(0);
 	const [user, setUser] = useState(null);
 	const [userDB,setUserDB] = useState(null);
-	const [selected,setSelected]=useState("");
 	const [userFriendsArray,setUserFriendsArray]=useState([]);
 	const [userRequestsArray,setUserRequestsArray]=useState([]);
 	const [loading, setLoading] = useState(true);
+	const [rerender,setRerender]=useState(false);
 	const fetchUserFromDB = async () => {
 		const q = query(collection(db,"Users"),where("email","==",auth?.currentUser?.email));
 		const querySnapshot = await getDocs(q);
 		const data=querySnapshot.docs.map(doc=>doc.data());
-		console.log(data[0]);
 		setUserDB(data[0]);
 		setUser(auth.currentUser);
 		setUserFriendsArray(data[0].friends);
 		setUserRequestsArray(data[0].requests);
 	}
 	useEffect(()=>{
+		console.log("Home rendered");
 		setTimeout(() => {
-			console.log(auth.currentUser?.email);
+			console.log(auth.currentUser.uid);
+			setID(auth.currentUser.uid);
 			setEmail(auth.currentUser.email);
 			fetchUserFromDB();
 		},1000);
-	},[])
+	},[rerender])
 	useEffect(()=>{
 		if (email) {
 			setLoading(false);
@@ -50,8 +52,7 @@ const Home = () => {
     </div>
 	) : (
 		<>
-			{JSON.stringify(userFriendsArray)}
-			<userContext.Provider value={{user,userDB,userFriendsArray,userRequestsArray,selected,setSelected}}>
+			<userContext.Provider value={{user,userDB,userFriendsArray,userRequestsArray,id,email,setRerender}}>
 				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-3 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-200 select-none">
 					<List />
 					<div className={`col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 relative ${profileVisible?" ":"lg:col-span-3"}`}>

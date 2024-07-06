@@ -9,7 +9,7 @@ const FriendList = () => {
   },[userFriendsArray])
   return (
     <div className=' mt-5 max-h-[80%] overflow-y-scroll rounded-lg overflow-x-hidden'>
-      {JSON.stringify(friends)}
+      {/* {JSON.stringify(friends)} */}
         {friends?friends?.map((friend,index)=>{
           return<Friend key={index} email={friend}/>}):"No Friends... Add Some"}
     </div>

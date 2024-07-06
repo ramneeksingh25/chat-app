@@ -3,10 +3,9 @@ import {
 	MdBlock,
 	MdCall,
 	MdOutlineMoreHoriz,
-	MdVideocam,
 } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
-import { IoPersonAddSharp } from "react-icons/io5";
+import { IoChatbox, IoChatbubble, IoChatbubbleOutline, IoPersonAddSharp } from "react-icons/io5";
 import Avatar from "./Avatar";
 import { userContext } from "../../Home";
 import {
@@ -21,6 +20,7 @@ import {
 import { db } from "../../../config/firebase";
 import Loading from "../../Loading";
 import Request from "../List/RequestsList/Request";
+import { BsChat } from "react-icons/bs";
 
 const Friend = ({ email, friend, add, isSelected, request }) => {
 	const { user, setSelected } = useContext(userContext);
@@ -40,15 +40,11 @@ const Friend = ({ email, friend, add, isSelected, request }) => {
 	const addFriend = async () => {
 		if (!friend) return;
 		console.log("adding friend request to user " + friend.id);
-		//add friend to database
 		const userRef = doc(db, "Users", user.uid);
 		const friendRef = doc(db, "Users", friend.id);
-
-		// update user friend list
 		await updateDoc(userRef, {
 			sentReq: arrayUnion(friend.email),
 		});
-		// update friend friend list
 		await updateDoc(friendRef, {
 			requests: arrayUnion(user.email),
 		});
@@ -72,11 +68,11 @@ const Friend = ({ email, friend, add, isSelected, request }) => {
 			}`}
 			onClick={() => {
 				// console.log(friend);
-				setSelected(friend);
+				// setSelected(friend);
 			}}>
-			<div className="flex items-center gap-2 mr-0 sm:mr-0 md:mr-0 lg:mr-2">
+			<div className="flex items-center gap-2 mr-0 sm:mr-0 md:mr-0 lg:mr-2 flex-1 overflow-x-hidden">
 				<Avatar name={name} />
-				<h1 className="hidden sm:hidden md:hidden lg:block">
+				<h1 className="hidden sm:hidden md:hidden lg:block text-[80%] text-nowrap break-keep">
 					{name || (
 						<>
 							<Loading />
@@ -84,14 +80,16 @@ const Friend = ({ email, friend, add, isSelected, request }) => {
 					)}
 				</h1>
 			</div>
-			<div className="flex items-center text-2xl">
+			<div className="flex items-center text-2xl flex-none">
 				{request?<>
-					<Request email={request}/>
+					<Request reqEmail={request}/>
 				</>:<>
 				{!add ? (
 					<div className="hidden sm:hidden md:block lg:flex items-center justify-center">
+						<div>
+							<IoChatbox className={iconStyle} />
+						</div>
 						<MdCall className={iconStyle} />
-						<MdVideocam className={iconStyle} />
 					</div>
 				) : (
 					<>
