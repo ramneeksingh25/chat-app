@@ -35,7 +35,7 @@ const Friend = ({ email,friend, add, isSelected }) => {
 			const q = query(collection(db, "Users"),where("email","==",email));
       const querySnapshot = await getDocs(q);
       const data=querySnapshot.docs.map(doc=>doc.data());
-      console.log(data[0]);
+    //   console.log(data[0]);
       setCurrent(data[0]);
 		}
 	};
@@ -60,7 +60,7 @@ const Friend = ({ email,friend, add, isSelected }) => {
 	};
 	useEffect(() => {
 		getUserFromDB();
-		console.log(tasks);
+		// console.log(tasks);
 	}, [name]);
 	return (
 		<div
