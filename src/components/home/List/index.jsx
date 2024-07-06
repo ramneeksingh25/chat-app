@@ -7,9 +7,6 @@ import FriendList from "./FriendList";
 const List = () => {
 	const menuStyle= "p-1 rounded-xl rounded-b-none  cursor-pointer text-center flex-1"
 	const [viewFriends,setViewFriends] = useState(true);
-	//change to true after request list complete
-
-	
 	return (
 		<div className="h-[98vh] p-1 sm:p-1 md:p-2 lg:p-3 shadow-xl rounded-xl bg-zinc-200/10 dark:bg-zinc-800/40 backdrop-blur-30
 		text-[10px] sm:text-[10px] md:text-sm lg:text-xl

@@ -3,7 +3,7 @@ import { auth, db } from "../config/firebase";
 import Loading from "./Loading";
 import List from "./home/List";
 import Chats from "./home/chat";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 export const userContext = createContext({
   uid:"1234",
   displayName:"John Doe",
@@ -22,6 +22,7 @@ const Home = () => {
 	const [userRequestsArray,setUserRequestsArray]=useState([]);
 	const [loading, setLoading] = useState(true);
 	const [rerender,setRerender]=useState(false);
+	const [dbrefresh,setRefresh]=useState(false);
 	const fetchUserFromDB = async () => {
 		const q = query(collection(db,"Users"),where("email","==",auth?.currentUser?.email));
 		const querySnapshot = await getDocs(q);
@@ -41,10 +42,20 @@ const Home = () => {
 		},1000);
 	},[rerender])
 	useEffect(()=>{
+		console.log("rerender");
+	},[dbrefresh])
+	useEffect(()=>{
 		if (email) {
 			setLoading(false);
 		}
 	},[email])
+	onSnapshot(query(collection(db,"Users"),where("email","==",email)),(snapshot)=>{
+		snapshot.docChanges().forEach((change)=>{
+			if (change.type === "modified") {
+                setRerender(!rerender);
+            }
+		})
+	})
 	const [profileVisible, setProfileVisible] = useState(true);
 	return loading ? (
     <div className="flex items-center justify-center h-screen text-[10vh]">
