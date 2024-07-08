@@ -9,7 +9,7 @@ const List = () => {
 	const [viewFriends,setViewFriends] = useState(true);
 	return (
 		<div className="h-[98vh] p-1 sm:p-1 md:p-2 lg:p-3 shadow-xl rounded-xl bg-zinc-200/10 dark:bg-zinc-800/40 backdrop-blur-30
-		text-[10px] sm:text-[10px] md:text-sm lg:text-xl
+		text-[10px] sm:text-[10px] md:text-sm lg:text-xl transition-all duration-300
 		">
 			<ProfileInfo />
 			<div className="flex justify-between items-center ">

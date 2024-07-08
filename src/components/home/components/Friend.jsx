@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MdBlock, MdCall, MdOutlineMoreHoriz } from "react-icons/md";
+import { MdBlock, MdCall, MdDelete, MdOutlineMoreHoriz } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import {
 	IoChatbox,
@@ -60,18 +60,24 @@ const Friend = ({ email, friend, add, request }) => {
 	}, [name]);
 	return (
 		<div
-			className={`mb-1 flex items-center justify-between bg-zinc-200/5 hover:bg-indigo-200/40 font-medium dark:bg-zinc-800/20 dark:hover:bg-zinc-800 duration-300 p-3 transition-all cursor-pointer rounded-lg ${
-				selected==email && "bg-blue-400/90 dark:bg-zinc-900"
+			className={`mb-1 flex items-center justify-between bg-zinc-200/5 hover:bg-indigo-200/40 font-medium dark:bg-zinc-800/20 dark:hover:bg-zinc-700/80 duration-300 p-3 transition-all cursor-pointer rounded-lg ${
+				selected==email && "bg-indigo-500/40 dark:bg-zinc-800 hover:bg-indigo-300/60 hover:dark:bg-zinc-900"
 			}`}
+			>
+			<div className="flex items-center gap-2 sm:gap-1 lg:gap-3 mr-0 sm:mr-0 md:mr-0 lg:mr-2 flex-1 "
 			onClick={() => {
 				if (email){
-					console.log(email);
-					setUserChat(email);
+					if (selected === email) {
+						setUserChat(null);
+					} else {
+						setUserChat(email);
+					}
 				}
-			}}>
-			<div className="flex items-center gap-2 sm:gap-1 lg:gap-3 mr-0 sm:mr-0 md:mr-0 lg:mr-2 flex-1 ">
+			}}
+			
+			>
 				<Avatar name={name} />
-				<h1 className="hidden sm:hidden md:hidden lg:block text-[80%] text-nowrap break-keep">
+				<h1 className={` ${add?"sm:block md:block":"hidden sm:hidden md:hidden"} lg:block text-[80%] text-nowrap break-keep`}>
 					{name || (
 						<>
 							<Loading />
@@ -88,10 +94,7 @@ const Friend = ({ email, friend, add, request }) => {
 					<>
 						{!add ? (
 							<div className="hidden sm:hidden md:block lg:flex items-center justify-center">
-								<div>
-									<IoChatbox className={iconStyle} />
-								</div>
-								<MdCall className={iconStyle} />
+								{/* <MdCall className={iconStyle} /> */}
 							</div>
 						) : (
 							<>
@@ -116,6 +119,10 @@ const Friend = ({ email, friend, add, request }) => {
 										console.log("Block User");
 									}}
 								/>
+								<MdDelete className={iconStyle}
+								onClick={()=>{
+									    console.log("Delete User");
+								}}/>
 								<RxCross2
 									className={
 										iconStyle +

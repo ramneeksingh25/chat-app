@@ -5,6 +5,7 @@ import List from "./home/List";
 import Chats from "./home/chat";
 import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import Details from "./home/details";
 export const userContext = createContext({
   uid:"1234",
   displayName:"John Doe",
@@ -57,7 +58,9 @@ const Home = () => {
 	onSnapshot(query(collection(db,"Users"),where("email","==",email)),(snapshot)=>{
 		snapshot.docChanges().forEach((change)=>{
 			if (change.type === "modified") {
-				// console.log(change);
+				console.log(
+					change.doc
+				);
                 setRerender(!rerender);
             }
 		})
@@ -67,24 +70,23 @@ const Home = () => {
 		setSelected(s);
 	}
 	const [profileVisible, setProfileVisible] = useState(true);
+	const toggleProfile = (s)=>{
+		setProfileVisible(s);
+	}
+	const provider = {user,userDB,userFriendsArray,selected,setUserChat,userRequestsArray,id,email,setRerender,profileVisible,toggleProfile}
 	return loading ? (
     <div className="flex items-center justify-center h-screen text-[10vh]">
       <Loading />
     </div>
 	) : (
 		<>
-			<userContext.Provider value={{user,userDB,userFriendsArray,selected,setUserChat,userRequestsArray,id,email,setRerender}}>
+			<userContext.Provider value={provider}>
 				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-3 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-200 select-none">
 					<List />
-					<div className={`col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 relative ${profileVisible?" ":"lg:col-span-3"}`}>
+					<div className={`col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 relative transition-all duration-500 ${profileVisible?" ":"lg:col-span-3"}`}>
 						<Chats/>
 					</div>
-					{profileVisible&&<div
-						className={`sm:hidden md:hidden hidden ${
-							profileVisible ? "lg:block" : "lg:hidden"
-						} `}>
-							Details
-					</div>}
+					<Details visible={profileVisible}/>
 				</div>
 			</userContext.Provider>
 		</>
