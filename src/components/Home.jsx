@@ -23,6 +23,7 @@ const Home = () => {
 	})
 	const dispatch = useDispatch();
 	const [email,setEmail]=useState(null);
+	const [id,setId]=useState(null);
 	const [loading, setLoading] = useState(true);
 	const [rerender,setRerender]=useState(false);
 	const navigate = useNavigate();
@@ -42,6 +43,7 @@ const Home = () => {
 		console.log("Home rendered");
 		setTimeout(() => {
 			setEmail(auth?.currentUser?.email);
+			setId(auth?.currentUser?.uid);
 			fetchUserFromDB()
 			
 		},1000);
@@ -70,7 +72,7 @@ const Home = () => {
 		setProfileVisible(s);
 	}
 	const provider = {
-		email,selected,setUserChat,setRerender,profileVisible,toggleProfile
+		id,email,selected,setUserChat,setRerender,profileVisible,toggleProfile
 	}
 	return loading ? (
     <div className="flex items-center justify-center h-screen text-[10vh]">

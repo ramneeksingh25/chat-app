@@ -1,21 +1,21 @@
-import Friend from '../../components/Friend';
-const RequestList = ({r}) => {
-  return (
-    <div>
-      {r==[]?<>
-        {r.map((request)=>{
-          return<div key={request}>
-            <Friend request={request}/>
-          </div>
-        })}
-      </>
-        :
-        <h1 className=' text-center'>
-          No Requests
-        </h1>
-}
-    </div>
-  )
-}
+import Friend from "../../components/Friend";
+const RequestList = ({ r }) => {
+  console.log(r);
+	return (
+		<div>
+			{r == [] ? (
+				<h1 className=" text-center">No Requests</h1>
+			): (
+				<>
+					{r?.map((request) => {
+						return (
+								<Friend request={request} />
+						);
+					})}
+				</>
+			)}
+		</div>
+	);
+};
 
-export default RequestList
+export default RequestList;

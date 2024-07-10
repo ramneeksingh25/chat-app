@@ -17,9 +17,7 @@ import Loading from "../../../Loading";
 import { useSelector } from "react-redux";
 
 const Request = ({ reqEmail }) => {
-	const { email, setRerender } = useContext(userContext);
-	const user = useSelector((state)=>state.user);
-	const id = user.id
+	const {id, email, setRerender } = useContext(userContext);
 	const userRef = doc(db, "Users", id);
 	const [friendRef, setFriendRef] = useState(null);
 	const [loading, setLoading] = useState(null);

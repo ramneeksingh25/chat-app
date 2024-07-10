@@ -18,9 +18,11 @@ import {
 import { db } from "../../../config/firebase";
 import Loading from "../../Loading";
 import Request from "../List/RequestsList/Request";
+import { useSelector } from "react-redux";
 
 const Friend = ({ email, friend, add, request }) => {
-	const { user,selected, setUserChat } = useContext(userContext);
+	const { id,selected, setUserChat } = useContext(userContext);
+	const User = useSelector((state)=>state.user);
 	const [current, setCurrent] = useState({});
 	const name = friend?.displayName || current?.displayName;
 	const iconStyle =
@@ -37,15 +39,15 @@ const Friend = ({ email, friend, add, request }) => {
 	const addFriend = async () => {
 		if (!friend) return;
 		console.log("adding friend request to user " + friend.id);
-		const userRef = doc(db, "Users", user.uid);
+		const userRef = doc(db, "Users", id);
 		const friendRef = doc(db, "Users", friend.id);
+		console.log(friendRef);
 		await updateDoc(userRef, {
-			sentReq: arrayUnion(friend.email),
+			sentReq: arrayUnion(friend.email),	
 		});
 		await updateDoc(friendRef, {
-			requests: arrayUnion(user.email),
+			requests: arrayUnion(User.email),
 		});
-
 		setCount(count + 1);
 		console.log("Friend request sent to " + friend.id);
 	};
