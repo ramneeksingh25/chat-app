@@ -36,6 +36,8 @@ const Register = () => {
 				  displayName: name,
 				  photoURL:"",
 				  friends:[],
+				  requests: [],
+                  sentReq: [],
 				});
 			  }
 
