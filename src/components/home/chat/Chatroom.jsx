@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { userContext } from "../../Home";
 import { addDoc, collection, doc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../../config/firebase";
+import Message from "./Message";
 const Chatroom = () => {
     const User = useSelector((state)=>state.user)
 	const [newMessage, setNewMessage] = useState("");
@@ -65,7 +66,7 @@ const Chatroom = () => {
             </div>
             {chat?<>
                 {chat.messages.map((message)=>{
-                    return <div>{message}</div>
+                    return <Message key={message} MID={message}/>
                 })}
             </>:"No Messages.."}
 			<div className="bg-zinc-800 w-full h-[5vh] rounded-full flex items-center justify-between p-2">
