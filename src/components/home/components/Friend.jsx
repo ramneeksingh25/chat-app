@@ -60,9 +60,9 @@ const Friend = ({ email, friend, add, request }) => {
 	}, [name]);
 	return (
 		<div
-			className={`mb-1 flex items-center justify-between bg-zinc-200/5 hover:bg-indigo-200/40 font-medium dark:bg-zinc-800/20 dark:hover:bg-zinc-700/80 duration-300 p-3 transition-all cursor-pointer rounded-lg ${
-				selected==email && "bg-indigo-500/40 dark:bg-zinc-800 hover:bg-indigo-300/60 hover:dark:bg-zinc-900"
-			}`}
+			className={`mb-1 hover:text-[112%] flex items-center justify-between bg-zinc-200/5 hover:bg-indigo-200/40 font-medium dark:bg-zinc-800/20 dark:hover:bg-zinc-700/80 duration-300 p-3 transition-all cursor-pointer rounded-lg ${
+				selected==email && "bg-indigo-400/60 dark:bg-zinc-900 hover:bg-indigo-300/60 hover:dark:bg-zinc-900"
+			} ${current||friend?"":"animate-pulse"}`}
 			>
 			<div className="flex items-center gap-2 sm:gap-1 lg:gap-3 mr-0 sm:mr-0 md:mr-0 lg:mr-2 flex-1 "
 			onClick={() => {
@@ -76,6 +76,9 @@ const Friend = ({ email, friend, add, request }) => {
 			}}
 			
 			>
+				{/* {JSON.stringify(selected==email)}
+				{JSON.stringify(email)}
+				{JSON.stringify(selected)} */}
 				<Avatar name={name} />
 				<h1 className={` ${add?"sm:block md:block":"hidden sm:hidden md:hidden"} lg:block text-[80%] text-nowrap break-keep`}>
 					{name || (
