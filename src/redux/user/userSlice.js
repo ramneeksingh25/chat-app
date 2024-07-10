@@ -13,8 +13,15 @@ const counterSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        //add user functions
+        setU: (state, action) => {
+            return {
+               ...state,
+               ...action.payload,
+            }
+        },
     },  
 })
+
+export const {setU} = counterSlice.actions;
 
 export default counterSlice.reducer

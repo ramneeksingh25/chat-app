@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MdBlock, MdCall, MdDelete, MdOutlineMoreHoriz } from "react-icons/md";
+import { MdBlock, MdDelete, MdOutlineMoreHoriz } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import {
-	IoChatbox,
 	IoPersonAddSharp,
 } from "react-icons/io5";
 import Avatar from "./Avatar";

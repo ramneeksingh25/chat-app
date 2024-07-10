@@ -1,10 +1,14 @@
-import React, {useContext, useEffect, useState } from "react";
+import React, {useState } from "react";
 import ProfileInfo from "./FriendList/Profile";
 import AddFriend from "./FriendList/AddFriend";
 import RequestList from "./RequestsList";
 import FriendList from "./FriendList";
+import { useSelector } from "react-redux";
 
 const List = () => {
+	const User = useSelector((state)=> state.user)
+	const friendsList = User.friends
+	const requestList = User.requests
 	const menuStyle= "p-1 rounded-xl rounded-b-none  cursor-pointer text-center flex-1"
 	const [viewFriends,setViewFriends] = useState(true);
 	return (
@@ -24,10 +28,10 @@ const List = () => {
 				{viewFriends?
 				<div>
 					<AddFriend />
-					<FriendList/>
+					<FriendList f={friendsList}/>
 				</div>:
 				<div>
-					<RequestList/>
+					<RequestList r={requestList}/>
 				</div>}
 			</div>
 		</div>

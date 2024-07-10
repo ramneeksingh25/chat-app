@@ -1,10 +1,11 @@
-import React, { useContext } from 'react'
 import SignOut from '../../../auth/SignOut'
 import Avatar from '../../components/Avatar';
-import { userContext } from '../../../Home';
+import { useSelector } from 'react-redux';
 const ProfileInfo = () => {
-  const {user} = useContext(userContext);
-  return user&&(
+  const user = useSelector((state)=>{
+		return state.user;
+	})
+  return (
     <div className='w-full flex items-center justify-between py-6'>
         <span className='flex items-center gap-3 font-bold'>
         {user.photoURL?<img src={user.photoURL} alt="UserImage" className='w-16 rounded-full'/>:<Avatar name={user?.displayName}/>}

@@ -1,23 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { userContext } from '../../../Home';
 import Friend from '../../components/Friend';
-
-const RequestList = () => {
-  const [requests,setRequests]= useState(null);
-  const {userRequestsArray}=useContext(userContext);
-  useEffect(()=>{
-    setRequests(userRequestsArray);
-  },[userRequestsArray])
+const RequestList = ({r}) => {
   return (
     <div>
-      {requests?<>
-        {requests.map((request)=>{
+      {r==[]?<>
+        {r.map((request)=>{
           return<div key={request}>
             <Friend request={request}/>
           </div>
         })}
       </>
-        :"No Requests"}
+        :
+        <h1 className=' text-center'>
+          "No Requests"
+        </h1>
+}
     </div>
   )
 }

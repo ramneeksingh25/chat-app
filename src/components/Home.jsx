@@ -6,6 +6,8 @@ import Chats from "./home/chat";
 import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Details from "./home/details";
+import { useDispatch, useSelector } from "react-redux";
+import { setU } from "../redux/user/userSlice";
 export const userContext = createContext({
   uid:"1234",
   displayName:"John Doe",
@@ -16,12 +18,11 @@ export const userContext = createContext({
   sentReq:["abc@abc.com"]
 });
 const Home = () => {
+	const U = useSelector((state)=>{
+		return state.user;
+	})
+	const dispatch = useDispatch();
 	const [email,setEmail]=useState(null);
-	const [id,setID]=useState(0);
-	const [user, setUser] = useState(null);
-	const [userDB,setUserDB] = useState(null);
-	const [userFriendsArray,setUserFriendsArray]=useState([]);
-	const [userRequestsArray,setUserRequestsArray]=useState([]);
 	const [loading, setLoading] = useState(true);
 	const [rerender,setRerender]=useState(false);
 	const navigate = useNavigate();
@@ -30,10 +31,7 @@ const Home = () => {
 		const q = query(collection(db,"Users"),where("email","==",auth?.currentUser?.email));
 		const querySnapshot = await getDocs(q);
 		const data=querySnapshot.docs.map(doc=>doc.data());
-		setUserDB(data[0]);
-		setUser(auth.currentUser);
-		setUserFriendsArray(data[0].friends);
-		setUserRequestsArray(data[0].requests);
+		dispatch(setU(data[0]));
 	}
 	auth.onAuthStateChanged((user)=>{
 		if (!user) {
@@ -43,8 +41,6 @@ const Home = () => {
 	useEffect(()=>{
 		console.log("Home rendered");
 		setTimeout(() => {
-			// console.log(auth.currentUser.uid);
-			setID(auth.currentUser.uid);
 			setEmail(auth.currentUser.email);
 			fetchUserFromDB()
 			
@@ -73,7 +69,9 @@ const Home = () => {
 	const toggleProfile = (s)=>{
 		setProfileVisible(s);
 	}
-	const provider = {user,userDB,userFriendsArray,selected,setUserChat,userRequestsArray,id,email,setRerender,profileVisible,toggleProfile}
+	const provider = {
+		selected,setUserChat,setRerender,profileVisible,toggleProfile
+	}
 	return loading ? (
     <div className="flex items-center justify-center h-screen text-[10vh]">
       <Loading />

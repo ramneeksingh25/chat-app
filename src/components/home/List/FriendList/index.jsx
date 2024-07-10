@@ -1,17 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Friend from "../../components/Friend";
-import { userContext } from "../../../Home";
-const FriendList = () => {
-	const [friends, setFriends] = useState(null);
-	const { userFriendsArray } = useContext(userContext);
-	useEffect(() => {
-		setFriends(userFriendsArray);
-	}, [userFriendsArray]);
+import { useSelector } from "react-redux";
+const FriendList = ({f}) => {
 	return (
 		<div className=" mt-5 max-h-[80%] overflow-y-scroll rounded-lg overflow-x-hidden">
-			{/* {JSON.stringify(friends)} */}
-			{friends
-				? friends?.map((friend, index) => {
+			{f?f.map((friend, index) => {
 						return (
 							<Friend
 								key={index}
