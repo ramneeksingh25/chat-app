@@ -1,24 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BiSearch } from 'react-icons/bi'
 import Loading from '../../../Loading';
-import {userContext} from '../../../Home';
-import Friend from '../../components/Friend';
+import { useSelector } from 'react-redux';
 
 const Search = () => {
   const [search,setSearch]=useState("");
   const [barVisible,setBarVisible]=useState(false);
   const [loading,setLoading]=useState(false)
-  const {userFriendsArray} = useContext(userContext);
-
-  useEffect(()=>{
-    console.log(userFriendsArray);
-  },[userFriendsArray])
+  const User = useSelector((state)=> state.user)
+  const userFriendsArray=User.friends.map(friend=>({name:friend.split('@')[0]}))
   const searchFriend=async()=>{
     setBarVisible(!barVisible)
     if(search){
       setBarVisible(!barVisible)
       setLoading(true)
       const filteredFriends=userFriendsArray.filter(friend=>friend.name.toLowerCase().includes(search.toLowerCase()))
+      console.log(filteredFriends);
     }
   }
   return <div className={`transition-all duration-500 flex items-center justify-center ${barVisible&&" bg-zinc-200"} justify-center p-2 rounded-full text-black`}>

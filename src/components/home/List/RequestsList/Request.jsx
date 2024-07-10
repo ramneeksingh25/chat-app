@@ -14,9 +14,12 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../../config/firebase";
 import Loading from "../../../Loading";
+import { useSelector } from "react-redux";
 
 const Request = ({ reqEmail }) => {
-	const { id, email, setRerender } = useContext(userContext);
+	const { email, setRerender } = useContext(userContext);
+	const user = useSelector((state)=>state.user);
+	const id = user.id
 	const userRef = doc(db, "Users", id);
 	const [friendRef, setFriendRef] = useState(null);
 	const [loading, setLoading] = useState(null);

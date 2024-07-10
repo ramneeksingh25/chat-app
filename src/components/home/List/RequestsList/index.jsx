@@ -11,7 +11,7 @@ const RequestList = ({r}) => {
       </>
         :
         <h1 className=' text-center'>
-          "No Requests"
+          No Requests
         </h1>
 }
     </div>

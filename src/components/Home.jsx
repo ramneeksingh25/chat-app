@@ -28,7 +28,7 @@ const Home = () => {
 	const navigate = useNavigate();
 	const [selected,setSelected] = useState(null);
 	const fetchUserFromDB = async () => {
-		const q = query(collection(db,"Users"),where("email","==",auth?.currentUser?.email));
+		const q = query(collection(db,"Users"),where("email","==",auth.currentUser.email));
 		const querySnapshot = await getDocs(q);
 		const data=querySnapshot.docs.map(doc=>doc.data());
 		dispatch(setU(data[0]));
@@ -41,7 +41,7 @@ const Home = () => {
 	useEffect(()=>{
 		console.log("Home rendered");
 		setTimeout(() => {
-			setEmail(auth.currentUser.email);
+			setEmail(auth?.currentUser?.email);
 			fetchUserFromDB()
 			
 		},1000);
@@ -70,7 +70,7 @@ const Home = () => {
 		setProfileVisible(s);
 	}
 	const provider = {
-		selected,setUserChat,setRerender,profileVisible,toggleProfile
+		email,selected,setUserChat,setRerender,profileVisible,toggleProfile
 	}
 	return loading ? (
     <div className="flex items-center justify-center h-screen text-[10vh]">
