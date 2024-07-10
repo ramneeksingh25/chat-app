@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { userContext } from "../../Home";
 import { addDoc, collection, doc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../../config/firebase";
-
 const Chatroom = () => {
     const User = useSelector((state)=>state.user)
 	const [newMessage, setNewMessage] = useState("");
@@ -56,12 +55,19 @@ const Chatroom = () => {
     useEffect(()=>{
         fetchChat();
     },[selected])
+    chat&&onSnapshot(doc(db,"Chats",chat.id),(change)=>{
+        setChat({id:change.id,...change.data()});
+    })
 	return (
 		<div className="bg-white/5 p-2 h-[85vh] w-full rounded-xl flex flex-col items-end justify-end">
             <div className="">
                 {selected}
             </div>
-                {JSON.stringify(chat&&chat.messages)}
+            {chat?<>
+                {chat.messages.map((message)=>{
+                    return <div>{message}</div>
+                })}
+            </>:"No Messages.."}
 			<div className="bg-zinc-800 w-full h-[5vh] rounded-full flex items-center justify-between p-2">
 				<input
 					type="text"
@@ -70,6 +76,11 @@ const Chatroom = () => {
 					onChange={(e) => {
 						setNewMessage(e.target.value);
 					}}
+                    onKeyDown={(e)=>{
+                        if(e.key==="Enter"){
+                            sendMessage();
+                        }
+                    }}
 				/>
                 <div className="flex items-center gap-2">
                     <BiSend
