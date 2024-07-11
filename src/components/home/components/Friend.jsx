@@ -40,23 +40,21 @@ const Friend = ({ email, friend, add, request }) => {
 	};
 	const addFriend = async () => {
 		if (!friend) return;
-		console.log("adding friend request to user " + friend.id);
 		const userRef = doc(db, "Users", id);
 		const friendRef = doc(db, "Users", friend.id);
-		console.log(friendRef);
 		await updateDoc(userRef, {
 			sentReq: arrayUnion(friend.email),	
 		});
 		await updateDoc(friendRef, {
 			requests: arrayUnion(User.email),
 		});
-		// setCount(count + 1);
 		console.log("Friend request sent to " + friend.id);
 	};
 	useEffect(() => {
 		if (request) {
 			email = request;
 		}
+		getUserFromDB();
 	}, [request]);
 	useEffect(() => {
 		getUserFromDB();
@@ -98,11 +96,7 @@ const Friend = ({ email, friend, add, request }) => {
 					</>
 				) : (
 					<>
-						{!add ? (
-							<div className="hidden sm:hidden md:block lg:flex items-center justify-center">
-								{/* <MdCall className={iconStyle} /> */}
-							</div>
-						) : (
+						{add && (
 							<>
 								<IoPersonAddSharp
 									className={iconStyle}
