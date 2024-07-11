@@ -88,7 +88,7 @@ const Home = () => {
 					<div className={`col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 relative transition-all duration-500 ${profileVisible?" ":"lg:col-span-3"}`}>
 						<Chats/>
 					</div>
-					<Details visible={profileVisible}/>
+					{/* <Details visible={profileVisible}/> */}
 				</div>
 			</userContext.Provider>
 		</>
