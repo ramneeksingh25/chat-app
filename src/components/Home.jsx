@@ -6,7 +6,7 @@ import Chats from "./home/chat";
 import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Details from "./home/details";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setU } from "../redux/user/userSlice";
 export const userContext = createContext({
   uid:"1234",
@@ -18,9 +18,6 @@ export const userContext = createContext({
   sentReq:["abc@abc.com"]
 });
 const Home = () => {
-	const U = useSelector((state)=>{
-		return state.user;
-	})
 	const dispatch = useDispatch();
 	const [email,setEmail]=useState(null);
 	const [id,setId]=useState(null);
@@ -53,6 +50,11 @@ const Home = () => {
 			setLoading(false);
 		}
 	},[email])
+	useEffect(()=>{
+		if (selected==null) {
+			setProfileVisible(false);
+		}
+	},[selected])
 	onSnapshot(query(collection(db,"Users"),where("email","==",email)),(snapshot)=>{
 		snapshot.docChanges().forEach((change)=>{
 			if (change.type === "modified") {

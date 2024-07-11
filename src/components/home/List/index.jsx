@@ -82,7 +82,6 @@ const List = () => {
 				)}
 				{viewFriends == 1 && (
 					<div>
-						<AddFriend />
 						<FriendList f={friendsList} />
 					</div>
 				)}

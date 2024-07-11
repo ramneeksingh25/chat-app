@@ -1,19 +1,22 @@
-import { useEffect, useState } from "react";
 import Friend from "../../components/Friend";
-import { useSelector } from "react-redux";
+import AddFriend from "./AddFriend";
 const FriendList = ({f}) => {
-	return (
+	return (<>
+	<div className="flex justify-center">
+		<AddFriend />
+	</div>
 		<div className=" mt-5 max-h-[80%] overflow-y-scroll rounded-lg overflow-x-hidden">
 			{f?f.map((friend, index) => {
-						return (
-							<Friend
-								key={index}
-								email={friend}
-							/>
-						);
-				  })
-				: "No Friends... Add Some"}
+				return (
+					<Friend
+					key={index}
+					email={friend}
+					/>
+				);
+			})
+			: "No Friends... Add Some"}
 		</div>
+	</>
 	);
 };
 export default FriendList;
