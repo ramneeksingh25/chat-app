@@ -15,7 +15,7 @@ const NewFriend = () => {
 		try {
 			setErrorMessage("");
 			setFriendsList([]);
-			const friend = query(usersRef, where("email", "==", friendEmail));
+			const friend = query(usersRef, where("email", "==", friendEmail.toLowerCase()));
 			const data = await getDocs(friend);
 			console.log(data);
 			if (data.empty) {

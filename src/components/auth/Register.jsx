@@ -3,12 +3,17 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
 const Register = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
+	const [profilePic,setProfilePic] = useState({
+		file:null,
+		url:""
+	});
 	const [isSigningIn, setSigningIn] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const inputStyle =
@@ -34,7 +39,7 @@ const Register = () => {
 				await setDoc(doc(db, "Users", user.uid), {
 				  email: user.email,
 				  displayName: name,
-				  photoURL:"",
+				  photoURL:profilePic.url,
 				  friends:[],
 				  requests: [],
                   sentReq: [],
@@ -58,6 +63,13 @@ const Register = () => {
 			}, 1000);
 		}
 	});
+	const handleAvatar=(e)=>{
+		if(e.target.files[0]){
+		setProfilePic({
+            file:e.target.files[0],
+            url:URL.createObjectURL(e.target.files[0])
+        })}
+	}
 	return (
 		<div>
 			<div className="flex items-center justify-center w-full h-screen select-none">
@@ -69,9 +81,27 @@ const Register = () => {
 					<div className="text-center">
 						<div className="mt-2">
 							<h3 className={` text-xl font-semibold  ${textStyle} `}>
-								Please Enter your details
+								Please Enter your Details
 							</h3>
 						</div>
+					</div>
+					<div className="flex items-center justify-center">
+						<label htmlFor="file" className="flex flex-col items-center gap-2 pointer-cursor">
+							{profilePic.file&&<img src={profilePic.url} className="w-[70px] h-[70px] border border-white/20 p-[1px] rounded-full hover:border-white/90 transition-all duration-300 cursor-pointer" alt="yourProfile" />}
+							<MdOutlineAddPhotoAlternate className={`bg-indigo-400 hover:bg-indigo-600 rounded-full transition-all duration-300 p-2 flex items-center justify-center text-white text-4xl cursor-pointer ${profilePic.file&&"hidden"}`}/>
+						</label>
+							{profilePic.file&&<div className="hover:underline hover:text-[102%] cursor-pointer" onClick={()=>{
+								setProfilePic({
+                                    file:null,
+                                    url:""
+                                })
+							}}>Remove</div>}
+						<input
+							type="file"
+							id="file"
+							className="hidden"
+							onChange={handleAvatar}
+						/>
 					</div>
 					<div>
 						<label className={textStyle}>

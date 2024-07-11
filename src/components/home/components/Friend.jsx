@@ -23,7 +23,9 @@ import { useSelector } from "react-redux";
 const Friend = ({ email, friend, add, request }) => {
 	const { id,selected, setUserChat } = useContext(userContext);
 	const User = useSelector((state)=>state.user);
+	console.log(User);
 	const [current, setCurrent] = useState({});
+	const [PhotoURL,setPhotoURL]=useState("");
 	const name = friend?.displayName || current?.displayName;
 	const iconStyle =
 		"hover:bg-indigo-800 rounded-full cursor-pointer hover:text-zinc-200 dark:hover:text-zinc-200 transition-all duration-200 p-2 text-[170%]";
@@ -48,7 +50,7 @@ const Friend = ({ email, friend, add, request }) => {
 		await updateDoc(friendRef, {
 			requests: arrayUnion(User.email),
 		});
-		setCount(count + 1);
+		// setCount(count + 1);
 		console.log("Friend request sent to " + friend.id);
 	};
 	useEffect(() => {
@@ -58,6 +60,7 @@ const Friend = ({ email, friend, add, request }) => {
 	}, [request]);
 	useEffect(() => {
 		getUserFromDB();
+		setPhotoURL(email?.photoURL||friend?.photoURL)
 	}, [name]);
 	return (
 		<div
@@ -77,10 +80,9 @@ const Friend = ({ email, friend, add, request }) => {
 			}}
 			
 			>
-				{/* {JSON.stringify(selected==email)}
-				{JSON.stringify(email)}
-				{JSON.stringify(selected)} */}
-				<Avatar name={name} />
+				{PhotoURL?
+				<img src={friend?.photoURL||email?.photoURL} className="w-10 h-10 rounded-full border border-white/40" alt=""/>:
+				<Avatar name={name} />}
 				<h1 className={` ${add?"sm:block md:block":"hidden sm:hidden md:hidden"} lg:block text-[80%] text-nowrap break-keep`}>
 					{name || (
 						<>
