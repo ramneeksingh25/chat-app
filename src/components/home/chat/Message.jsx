@@ -12,7 +12,6 @@ const Message = ({ MID }) => {
 		const messageRef = doc(db, "Messages", MID);
 		const messageSnap = await getDoc(messageRef);
 		if (messageSnap.exists()) {
-			console.log("Message data:", messageSnap.data());
 			setMessage(messageSnap.data());
 			setSender(messageSnap.data().sender === User.email);
 		} else {
@@ -28,11 +27,11 @@ const Message = ({ MID }) => {
 				sender ? "justify-end" : "justify-start"
 			}`}>
 			{sender ? (
-				<div className="bg-white/55 dark:bg-zinc-500/55 px-2 py-1 rounded-full rounded-tr-none m-[2px] w-fit">
+				<div className="bg-white/55 dark:bg-zinc-500/55 px-2 py-1 rounded-full rounded-tr-none m-[1px] w-fit">
 					{message.text}
 				</div>
 			) : (
-				<div className="bg-indigo-100/55 dark:bg-indigo-800/55 px-2 py-1 rounded-full m-[2px] w-fit">
+				<div className="bg-indigo-500/55 dark:bg-indigo-800/55 text-white px-2 py-1 rounded-full rounded-tl-none m-[1px] w-fit">
 					{message.text}
 				</div>
 			)}
