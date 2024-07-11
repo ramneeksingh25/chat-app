@@ -5,7 +5,6 @@ import List from "./home/List";
 import Chats from "./home/chat";
 import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import Details from "./home/details";
 import { useDispatch } from "react-redux";
 import { setU } from "../redux/user/userSlice";
 export const userContext = createContext({
@@ -88,7 +87,6 @@ const Home = () => {
 					<div className={`col-span-3 sm:col-span-3 md:col-span-3 lg:col-span-2 relative transition-all duration-500 ${profileVisible?" ":"lg:col-span-3"}`}>
 						<Chats/>
 					</div>
-					{/* <Details visible={profileVisible}/> */}
 				</div>
 			</userContext.Provider>
 		</>
