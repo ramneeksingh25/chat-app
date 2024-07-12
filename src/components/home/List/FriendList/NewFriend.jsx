@@ -3,7 +3,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import Friend from "../../components/Friend";
 import { db } from "../../../../config/firebase";
 
-const NewFriend = () => {
+const NewFriend = ({overlayF}) => {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isSearching, setIsSearching] = useState(false);
 	const [friendEmail, setFriendEmail] = useState("");
@@ -75,6 +75,7 @@ const NewFriend = () => {
 				return (
 					<Friend
 						friend={friend}
+						overlayF={overlayF}
 						add={true}
 						key={index}
 					/>

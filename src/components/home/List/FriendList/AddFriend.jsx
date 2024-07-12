@@ -15,7 +15,7 @@ const AddFriend = () => {
           }}>
           </div>
           <div className='absolute z-10'> 
-            <NewFriend/>
+            <NewFriend overlayF={setDialogVisible}/>
           </div>
         </div>}
     </div>

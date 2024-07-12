@@ -20,7 +20,7 @@ import Loading from "../../Loading";
 import Request from "../List/RequestsList/Request";
 import { useSelector } from "react-redux";
 
-const Friend = ({ email, friend, add, request }) => {
+const Friend = ({ email, friend, add, request,overlayF }) => {
 	const { id,selected, setUserChat } = useContext(userContext);
 	const User = useSelector((state)=>state.user);
 	console.log(User);
@@ -48,6 +48,7 @@ const Friend = ({ email, friend, add, request }) => {
 		await updateDoc(friendRef, {
 			requests: arrayUnion(User.email),
 		});
+		overlayF(false);
 		console.log("Friend request sent to " + friend.id);
 	};
 	useEffect(() => {
