@@ -9,27 +9,11 @@ import { userContext } from "../../Home";
 
 const List = () => {
 	const User = useSelector((state) => state.user);
-	const { email } = useContext(userContext);
 	const friendsList = User.friends;
 	const requestList = User.requests;
 	const menuStyle =
 		"p-1 rounded-xl rounded-b-none  cursor-pointer text-center flex-1";
 	const [viewFriends, setViewFriends] = useState(1);
-	const loadChats = async () => {
-		const q = query(
-			collection(db, "Chats"),
-			where("users", "array-contains", email)
-		);
-		const querySnapshot = await getDocs(q);
-		const data = querySnapshot.docs.map((doc) => doc.data());
-		setChats(data);
-	};
-	useEffect(() => {
-		setTimeout(() => {
-			loadChats();
-		}, 2000);
-		console.log(email);
-	}, []);
 	return (
 		<div
 			className="h-[98vh] p-1 sm:p-1 md:p-2 lg:p-3 shadow-xl rounded-xl bg-zinc-200/10 dark:bg-zinc-800/40 backdrop-blur-30

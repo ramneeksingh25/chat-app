@@ -23,7 +23,6 @@ import { useSelector } from "react-redux";
 const Friend = ({ email, friend, add, request,overlayF }) => {
 	const { id,selected, setUserChat } = useContext(userContext);
 	const User = useSelector((state)=>state.user);
-	console.log(User);
 	const [current, setCurrent] = useState({});
 	const [PhotoURL,setPhotoURL]=useState("");
 	const name = friend?.displayName || current?.displayName;

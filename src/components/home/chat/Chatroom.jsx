@@ -1,90 +1,54 @@
 import React, {
 	useContext,
 	useEffect,
-	useId,
-	useLayoutEffect,
-	useRef,
 	useState,
 } from "react";
-import { BiImage, BiSend } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { userContext } from "../../Home";
 import {
 	addDoc,
-	arrayUnion,
 	collection,
 	doc,
 	getDocs,
 	onSnapshot,
 	query,
-	updateDoc,
 	where,
 } from "firebase/firestore";
 import { db } from "../../../config/firebase";
-import Message from "./Message";
 import Messages from "./Messages";
 import Input from "./Input";
 const Chatroom = () => {
 	const User = useSelector((state) => state.user);
-	const [newMessage, setNewMessage] = useState("");
-	const [inputValue, setInputValue] = useState("");
 	const [chat, setChat] = useState(null);
+	const [messages, setMessages] = useState([]);
 	const { selected } = useContext(userContext);
-	const messagesRef = useRef(null);
-	// const sendMessage = async () => {
-	// 	const newMessageRef = await addDoc(collection(db, "Messages"), {
-	// 		sender: User.email,
-	// 		receiver: selected,
-	// 		text: newMessage,
-	// 		sentAt: new Date(),
-	// 		image: "",
-	// 		photoURL: User.photoURL,
-	// 	});
-	// 	console.log(
-	// 		"Sending Message: ",
-	// 		newMessage,
-	// 		" from ",
-	// 		User.email,
-	// 		" to ",
-	// 		selected
-	// 	);
-	// 	console.log("Message added with ID: ", newMessageRef.id);
-	// 	await updateDoc(doc(db, "Chats", chat.id), {
-	// 		messages: arrayUnion(newMessageRef.id),
-	// 	});
-	// 	messagesRef.current.scrollIntoView({ behavior: "smooth" });
-	// 	setNewMessage("");
-	// };
-	// const sendImage = () => {
-	// 	// TODO: Send image to Firebase
-	// 	console.log("Sending Image to ", selected);
-	// };
 	const fetchChat = async () => {
-		const chatRef = query(
-			collection(db, "Chats"),
-			where("users", "array-contains", User.email)
-		);
-		const data = await getDocs(chatRef);
-		if (!data.empty) {
-			const chat = data.docs.map((doc) => {
-				return { id: doc.id, ...doc.data() };
-			});
-			const thisChat = chat.filter((c) => {
-				return c.users.includes(selected) && c.users.includes(User.email);
-			});
-			console.log(thisChat[0]);
-			setChat(thisChat[0]);
-		} else {
-			const newChatRef = await addDoc(collection(db, "Chats"), {
-				lastSent: new Date().getTime(),
-				messages: [],
-				user1: User.email,
-				user2: selected,
-				users: [User.email, selected],
-			});
-			setChat(newChatRef);
-			console.log("Created new chat with id " + newChatRef.id);
-		}
+		const chatRef = query(collection(db,"Chats").where())
+		// const chatRef = query(
+		// 	collection(db, "Chats"),
+		// 	where("users", "array-contains", User.email)
+		// );
+		// const data = await getDocs(chatRef);
+		// if (!data.empty) {
+		// 	const chat = data.docs.map((doc) => {
+		// 		return { id: doc.id, ...doc.data() };
+		// 	});
+		// 	const thisChat = chat.filter((c) => {
+		// 		return c.users.includes(selected) && c.users.includes(User.email);
+		// 	});
+		// 	console.log(thisChat[0]);
+		// 	setChat(thisChat[0]);
+		// } else {
+		// 	const newChatRef = await addDoc(collection(db, "Chats"), {
+		// 		lastSent: new Date().getTime(),
+		// 		messages: [],
+		// 		user1: User.email,
+		// 		user2: selected,
+		// 		users: [User.email, selected],
+		// 	});
+		// 	setChat(newChatRef);
+		// 	console.log("Created new chat with id " + newChatRef.id);
+		// }
 	};
 	useEffect(() => {
 		fetchChat();
