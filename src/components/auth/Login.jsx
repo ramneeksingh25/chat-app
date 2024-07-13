@@ -1,12 +1,8 @@
 import logo from '/favicon.svg'
-import {
-	getRedirectResult,
-	signInWithEmailAndPassword,
-	signInWithRedirect,
-} from "firebase/auth";
+import {signInWithEmailAndPassword} from "firebase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, googleProvider } from "../../config/firebase";
+import { auth} from "../../config/firebase";
 import Input from "./Input";
 const Login = () => {
 	const [isSigningIn, setSigningIn] = useState(false);

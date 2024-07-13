@@ -9,6 +9,9 @@ export default {
     extend: {
       animation: {
         'spin-slow': 'spin 1.5s linear infinite',
+      },
+      fontFamily:{
+        poppins:["Poppins","sans-serif"]
       }
     },
   },

@@ -7,7 +7,7 @@ import ThemeSwitch from "./components/theme/ThemeSwitch.jsx";
 const App = () => {
 	return (
 		<>
-			<div className="fixed h-screen w-full bg-gradient-to-tr dark:from-indigo-900 dark:to-cyan-900 from-indigo-400 to-cyan-400 ">
+			<div className="font-poppins fixed h-screen w-full bg-gradient-to-tr dark:from-indigo-900 dark:to-cyan-900 from-indigo-400 to-cyan-400 ">
 				<ThemeSwitch />
 				<Routes>
 					<Route

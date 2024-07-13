@@ -3,8 +3,14 @@ import React, { useEffect, useState } from "react";
 const Input = ({ type, onChange, required }) => {
 	const [fieldType, setFieldType] = useState("email");
 	const [value, setValue] = useState("");
+	const labelStyle = `absolute left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-pink-600/70 dark:peer-focus:text-pink-300/70 peer-focus:-top-4 
+		transition-all duration-300 ${value != "" && "-top-[12px] text-xs text-indigo-500"}`
 	useEffect(() => {
-		if (type === "Password" || type==="password" || type === "Confirm Password") {
+		if (
+			type === "Password" ||
+			type === "password" ||
+			type === "Confirm Password"
+		) {
 			setFieldType("password");
 		}
 		if (type === "Name") {
@@ -15,7 +21,7 @@ const Input = ({ type, onChange, required }) => {
 		}
 	}, []);
 	return (
-		<div className="relative w-full mt-2">
+		<div className="relative w-full my-3 py-1">
 			<input
 				id={type}
 				type={fieldType}
@@ -28,8 +34,7 @@ const Input = ({ type, onChange, required }) => {
 			/>
 			<label
 				htmlFor={type}
-				className={`absolute left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-pink-600/70 dark:peer-focus:text-pink-300/70 peer-focus:-top-4 
-     transition-all duration-300 ${value != "" && "-top-4 text-xs"}`}>
+				className={labelStyle}>
 				{type}
 			</label>
 		</div>
