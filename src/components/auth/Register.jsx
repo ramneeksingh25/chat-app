@@ -1,21 +1,21 @@
 import logo from "/favicon.svg";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, db } from "../../config/firebase";
+import { auth, db, storage } from "../../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import Input from "./Input";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
 
 const Register = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-	const [profilePic, setProfilePic] = useState({
-		file: null,
-		url: "",
-	});
+	const [profilePic, setProfilePic] = useState(null);
+	const [profilePicURL, setProfilePicURL] = useState("");
 	const [isSigningIn, setSigningIn] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Register = () => {
 				await setDoc(doc(db, "Users", user.uid), {
 					email: user.email,
 					displayName: name,
-					photoURL: profilePic.url,
+					photoURL: profilePicURL,
 					friends: [],
 					requests: [],
 					sentReq: [],
@@ -62,12 +62,21 @@ const Register = () => {
 	});
 	const handleAvatar = (e) => {
 		if (e.target.files[0]) {
-			setProfilePic({
-				file: e.target.files[0],
-				url: URL.createObjectURL(e.target.files[0]),
-			});
+			setProfilePic(e.target.files[0]);
 		}
+		uploadImage();
 	};
+	const uploadImage = async () => {
+		if (!profilePic) return;
+		const imageRef = ref(storage, `profileImages/${profilePic.name + v4()}`);
+		uploadBytes(imageRef, profilePic).then(async ()=>{
+				const downloadURL = await getDownloadURL(imageRef);
+				setProfilePicURL(downloadURL);
+		})
+	};
+	useEffect(() => {
+		uploadImage();
+	}, [profilePic]);
 	return (
 		<div>
 			<div className="flex items-center justify-center w-full h-screen select-none">
@@ -80,13 +89,20 @@ const Register = () => {
 							signUp();
 						}
 					}}>
-					<div className='flex items-center justify-center'>
-				<img src={logo} alt="logo" className='w-16'/>
-				<div className="text-2xl flex-1 bg-gradient-to-r from-blue-500 to-pink-500 text-transparent bg-clip-text underline hover:from-blue-6 cursor-auto  hover:to-pink-600 select-none text-center">
-					<span className="text-5xl font-semibold tracking-wide">ChatSpot</span> <br /> 
-					Chat, Share, Connect
-				</div>
-			</div>
+					<div className="flex items-center justify-center">
+						<img
+							src={logo}
+							alt="logo"
+							className="w-16"
+						/>
+						<div className="text-2xl flex-1 bg-gradient-to-r from-blue-500 to-pink-500 text-transparent bg-clip-text underline hover:from-blue-6 cursor-auto  hover:to-pink-600 select-none text-center">
+							<span className="text-5xl font-semibold tracking-wide">
+								ChatSpot
+							</span>{" "}
+							<br />
+							Chat, Share, Connect
+						</div>
+					</div>
 					<div className="text-center">
 						<div className="mt-2">
 							<h3 className="select-none font-medium underline hover:decoration-pink-300/70 decoration-indigo-700/70 transition duration-1000">
@@ -98,9 +114,9 @@ const Register = () => {
 						<label
 							htmlFor="file"
 							className="flex flex-col items-center gap-2 pointer-cursor">
-							{profilePic.file && (
+							{profilePic && (
 								<img
-									src={profilePic.url}
+									src={profilePicURL}
 									className="w-[70px] h-[70px] border border-white/20 p-[1px] rounded-full hover:border-white/90 transition-all duration-300 cursor-pointer"
 									alt="yourProfile"
 								/>
@@ -109,18 +125,15 @@ const Register = () => {
 								className={`bg-indigo-700 hover:bg-indigo-600
 								w-[50px] h-[50px] p-[10px]
 									rounded-full transition-all duration-500 flex items-center justify-center text-4xl cursor-pointer border border-pink-207hover:border-pink-400 text-pink-200 hover:text-pink-400 peer ${
-									profilePic.file && "hidden"
-								}`}
+										profilePic && "hidden"
+									}`}
 							/>
 						</label>
-						{profilePic.file && (
+						{profilePic && (
 							<div
 								className="hover:underline hover:text-[102%] cursor-pointer"
 								onClick={() => {
-									setProfilePic({
-										file: null,
-										url: "",
-									});
+									setProfilePic(null);
 								}}>
 								Remove
 							</div>
