@@ -42,7 +42,7 @@ const Login = () => {
 			<div className='flex items-center justify-center'>
 				<img src={logo} alt="logo" className='w-16'/>
 				<div className="text-2xl flex-1 bg-gradient-to-r from-blue-500 to-pink-500 text-transparent bg-clip-text underline hover:from-blue-6 cursor-auto  hover:to-pink-600 select-none text-center">
-					<span className="text-5xl">ChatterBox</span> <br /> 
+					<span className="text-5xl font-semibold tracking-tighter">ChatSpot</span> <br /> 
 					Chat, Share, Connect
 				</div>
 			</div>

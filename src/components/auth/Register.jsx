@@ -18,8 +18,6 @@ const Register = () => {
 	});
 	const [isSigningIn, setSigningIn] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-	const textStyle =
-		"text-sm font-bold underline decoration-pink-500/70 hover:decoration-indigo-700/70 transition duration-500";
 	const navigate = useNavigate();
 	const signUp = async () => {
 		if (password !== confirmPassword) {
@@ -82,17 +80,13 @@ const Register = () => {
 							signUp();
 						}
 					}}>
-					<div className="flex items-center">
-						<img
-							src={logo}
-							alt=""
-							className="w-16"
-						/>
-						<div className="text-2xl flex-1 bg-gradient-to-r from-blue-500 to-pink-500 text-transparent bg-clip-text underline hover:from-blue-6 cursor-auto  hover:to-pink-600 select-none text-center">
-							<span className="text-5xl">ChatterBox</span> <br />
-							Chat, Share, Connect
-						</div>
-					</div>
+					<div className='flex items-center justify-center'>
+				<img src={logo} alt="logo" className='w-16'/>
+				<div className="text-2xl flex-1 bg-gradient-to-r from-blue-500 to-pink-500 text-transparent bg-clip-text underline hover:from-blue-6 cursor-auto  hover:to-pink-600 select-none text-center">
+					<span className="text-5xl font-semibold tracking-wide">ChatSpot</span> <br /> 
+					Chat, Share, Connect
+				</div>
+			</div>
 					<div className="text-center">
 						<div className="mt-2">
 							<h3 className="select-none font-medium underline hover:decoration-pink-300/70 decoration-indigo-700/70 transition duration-1000">
