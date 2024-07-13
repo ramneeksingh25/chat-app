@@ -4,7 +4,7 @@ const Input = ({ type, onChange, required }) => {
 	const [fieldType, setFieldType] = useState("email");
 	const [value, setValue] = useState("");
 	const labelStyle = `absolute left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-pink-600/70 dark:peer-focus:text-pink-300/70 peer-focus:-top-4 
-		transition-all duration-300 ${value!="" && "-top-[13px] text-xs text-indigo-500"}`
+		transition-all duration-300 ${value!="" && "-top-[14px] text-xs text-indigo-500"}`
 	useEffect(() => {
 		if (
 			type === "Password" ||

@@ -31,6 +31,7 @@ const Register = () => {
 			const user = auth.currentUser;
 			updateProfile(auth.currentUser, {
 				displayName: name,
+				photoURL: profilePicURL,
 			});
 			console.log(user);
 			if (user) {
