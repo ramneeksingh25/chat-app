@@ -59,7 +59,7 @@ const NewFriendDialog = ({overlayF}) => {
 					findFriend();
 				}}>
 				Add Friend
-			</button>
+			</button> 
 			{FriendsList.map((friend, index) => {
 				return (
 					<Friend

@@ -6,7 +6,7 @@ const FriendList = ({ f }) => {
 			<div className="flex justify-center">
 				<AddFriend />
 			</div>
-			<div className=" mt-5 max-h-[80%] overflow-y-scroll rounded-lg overflow-x-hidden">
+			<div className=" mt-5 h-[90%] overflow-y-scroll rounded-lg overflow-x-hidden">
 				{f
 					? f.map((friend, index) => {
 							return (
