@@ -7,9 +7,11 @@ const RequestList = ({ r }) => {
 				<h1 className=" text-center">No Requests</h1>
 			): (
 				<>
-					{r?.map((request) => {
+					{r?.map((request,key) => {
 						return (
+							<div key={key}>
 								<Friend request={request} />
+							</div>
 						);
 					})}
 				</>
