@@ -13,16 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setU } from "../redux/user/userSlice";
-export const userContext = createContext({
-	uid: "1234",
-	displayName: "John Doe",
-	email: "johndoe@example.com",
-	photoURL:
-		"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6SGvshARHJ5GYSH_Kig8-cYNw5rO3nWn7mA&s",
-	friends: ["12345", "12"],
-	requests: ["http@example.com"],
-	sentReq: ["abc@abc.com"],
-});
+export const userContext = createContext(null);
 const Home = () => {
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState(null);
@@ -70,7 +61,6 @@ const Home = () => {
 		}
 	);
 	const setUserChat = (s) => {
-		// console.log("selecting ", s);
 		setSelected(s);
 	};
 	const provider = {

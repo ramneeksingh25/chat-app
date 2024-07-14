@@ -24,18 +24,18 @@ const Chats = () => {
 			setChat(thisChat[0]);
 			if (thisChat.length == 0) {
 				console.log("No active chat found, creating new one");
-                const newChatRef = await addDoc(collection(db, "Chats"), {
-                    lastSent: new Date().getTime(),
-                    messages: [],
-                    user1: User.email,
-                    user2: selected,
-                    users: [User.email, selected],
-                });
-                setChat(newChatRef);
-                console.log("Created new chat with id " + newChatRef.id);
+				const newChatRef = await addDoc(collection(db, "Chats"), {
+					lastSent: new Date().getTime(),
+					messages: [],
+					user1: User.email,
+					user2: selected,
+					users: [User.email, selected],
+				});
+				setChat(newChatRef);
+				console.log("Created new chat with id " + newChatRef.id);
 			}
 		} else {
-			console.log('Couldn\'t find');
+			console.log("Couldn't find");
 			const newChatRef = await addDoc(collection(db, "Chats"), {
 				lastSent: new Date().getTime(),
 				messages: [],
@@ -55,18 +55,20 @@ const Chats = () => {
 		}
 	}, [selected]);
 	return (
-		<div className="h-[98vh] p-3 shadow-xl rounded-xl bg-zinc-200/10 dark:bg-zinc-800/40 backdrop-blur-30">
-			<div className="inline-block w-full text-center font-extrabold p-2 pb-5 m-0">
-				<h1 className="mb-4 text-3xl bg-gradient-to-l from-blue-700 to-purple-700 text-transparent bg-clip-text underline hover:from-blue-6 cursor-auto 00 hover:to-purple-600">
+		<div className="h-[98vh] p-3 shadow-xl rounded-xl bg-zinc-200/10 dark:bg-zinc-800/40 backdrop-blur-30 flex flex-col">
+			<div className="inline-block w-full text-center font-extrabold m-0 flex-none">
+				<h1 className={`hidden sm:block md:block lg:block bg-gradient-to-l from-blue-700 to-purple-700 text-transparent bg-clip-text underline hover:from-blue-6 cursor-auto hover:to-purple-600 transition-all duration-300 ${selected?"text-2xl":"text-5xl"}`}>
 					ChatSpot - Chat, Share, Connect
 				</h1>
-				<h2 className="font-extralight">
-					{selected ? (
-						<Chatroom room={chat} />
-					) : (
-						"Select User from List to begin Chatting..."
-					)}
-				</h2>
+			</div>
+			<div className="font-light  h-full">
+				{selected ? (
+					<Chatroom room={chat} />
+				) : (
+					<div className="flex items-center justify-center h-full text-2xl">
+						Select User from List to begin Chatting...
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -1,74 +1,40 @@
 import React, { useContext, useEffect, useState } from "react";
 import { userContext } from "../../Home";
-import Messages from "./Messages";
-import Input from "./Input";
-import { IoSend } from "react-icons/io5";
-import { db, realtimeDB } from "../../../config/firebase";
-import { child, get, onValue, ref, set, update } from "firebase/database";
-import { v4 } from "uuid";
-import { useSelector } from "react-redux";
-import {
-	addDoc,
-	arrayUnion,
-	collection,
-	doc,
-	updateDoc,
-} from "firebase/firestore";
 import MessagesNew from "./MessagesNew";
+import MessageInput from "./MessageInput";
+import { db } from "../../../config/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import Avatar from "../components/Avatar";
 const Chatroom = ({ room }) => {
 	const { selected } = useContext(userContext);
-	const User = useSelector((state) => state.user);
 	const [chatID, setChatID] = useState(null);
-	const [message, setMessage] = useState("");
-	const sendMessage = async () => {
-		console.log("Sending Message: ", message);
-		const messageID = v4();
-		const time = new Date();
-		const seconds = time.getTime();
-		const newMessage = {
-			id: messageID,
-			sender: User.email,
-			receiver: selected,
-			text: message,
-			sentAt: seconds,
-			image: "",
-			photoURL: User.photoURL,
-		};
-		update(ref(realtimeDB, "chats/"+chatID + "/" + messageID), newMessage);
-		await updateDoc(doc(db, "Chats", chatID), {
-			messages: arrayUnion(messageID),
-			lastSent: seconds,
-		});
+	const [current, setCurrent] = useState(null);
+	const getUserFromDB = async () => {
+		const q = query(collection(db, "Users"), where("email", "==", selected));
+		const querySnapshot = await getDocs(q);
+		const data = querySnapshot.docs.map((doc) => doc.data());
+		setCurrent(data[0]);
 	};
 	useEffect(() => {
 		if (room) {
 			setChatID(room.id);
 		}
+		getUserFromDB();
+		return () => {
+			setChatID(null);
+		};
 	}, [room, selected]);
 	return (
-		<>
-			<div className="">{selected}</div>
-			<MessagesNew chat={room}/>
-			<div className="flex items-center justify-center">
-				<input
-					type="text"
-					className="bg-black text-white rounded-xl p-3"
-					onChange={(e) => {
-						setMessage(e.target.value);
-					}}
-				/>
-				<div
-					className="rounded-full bg-blue-300 h-10 w-10 flex items-center justify-center text-black"
-					onClick={sendMessage}>
-					<IoSend />
-				</div>
+		<div className="bg-zinc-200/20 dark:bg-zinc-900/20 border border-zinc-900/20 rounded-2xl overflow-x-hidden flex flex-col h-full mt-2">
+			<div className=" border-b border-black/20 bg-zinc-200/5 dark:bg-zinc-800/40 p-2 flex items-center justify-center gap-3 font-semibold">
+				{current?.photoURL?<img src={current.photoURL} alt="ProfilePic"
+				className="h-[40px] w-[40px] rounded-full border dark:border-cyan-100 border-indigo-800"
+				/>:<Avatar name={current?.displayName} size="md"/>}
+				<h1>{current?.displayName}</h1>
 			</div>
-			{/* Message: {message}
-			<div className="bg-white/5 p-2 h-[85vh] w-full rounded-xl flex flex-col items-end justify-end">
-			<MessagesNew />
-			<Input/>
-			</div> */}
-		</>
+			<MessagesNew chat={room} />
+			<MessageInput chatID={chatID} />
+		</div>
 	);
 };
 
