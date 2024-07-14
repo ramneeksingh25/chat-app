@@ -57,7 +57,7 @@ const Chats = () => {
 	return (
 		<div className="h-[98vh] p-3 shadow-xl rounded-xl bg-zinc-200/10 dark:bg-zinc-800/40 backdrop-blur-30 flex flex-col">
 			<div className="inline-block w-full text-center font-extrabold m-0 flex-none">
-				<h1 className={`hidden sm:block md:block lg:block bg-gradient-to-l from-blue-700 to-purple-700 text-transparent bg-clip-text underline hover:from-blue-6 cursor-auto hover:to-purple-600 transition-all duration-300 ${selected?"text-2xl":"text-5xl"}`}>
+				<h1 className={`hidden sm:block md:block lg:block bg-gradient-to-l from-blue-700 to-purple-700 text-transparent bg-clip-text underline hover:from-blue-6 cursor-auto hover:to-purple-600 dark:from-blue-600 dark:to-purple-600 dark:hover:to-purple-700 transition-all duration-300 ${selected?"text-2xl":"text-5xl"}`}>
 					ChatSpot - Chat, Share, Connect
 				</h1>
 			</div>

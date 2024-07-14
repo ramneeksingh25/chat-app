@@ -1,80 +1,57 @@
-import {
-	collection,
-	doc,
-	getDocs,
-	onSnapshot,
-	query,
-	where,
-} from "firebase/firestore";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { db } from "../../../config/firebase";
-import { userContext } from "../../Home";
-import { useSelector } from "react-redux";
+import { realtimeDB } from "../../../config/firebase";
+import { onValue, ref } from "firebase/database";
 import Message from "./Message";
+import { userContext } from "../../Home";
 
-const Messages = () => {
-	const [chat, setChat] = useState(null);
-	const messagesRef = useRef(null);
+const Messages = ({ chat }) => {
+	const [messages, setMessages] = useState(null);
 	const { selected } = useContext(userContext);
-	const User = useSelector((state) => state.user);
-	const fetchChat = async () => {
-		const chatRef = query(
-			collection(db, "Chats"),
-			where("users", "array-contains", User.email)
-		);
-		const data = await getDocs(chatRef);
-		if (!data.empty) {
-			const chat = data.docs.map((doc) => {
-				return { id: doc.id, ...doc.data() };
-			});
-			const thisChat = chat.filter((c) => {
-				return c.users.includes(selected) && c.users.includes(User.email);
-			});
-			console.log(thisChat[0]);
-			setChat(thisChat[0]);
-		} else {
-			const newChatRef = await addDoc(collection(db, "Chats"), {
-				lastSent: new Date().getTime(),
-				messages: [],
-				user1: User.email,
-				user2: selected,
-				users: [User.email, selected],
-			});
-			console.log("Created new chat with id " + newChatRef.id);
+	const divRef = useRef();
+
+	const scrollToElement = () => {
+		const { current } = divRef;
+		if (current !== null) {
+			current.scrollIntoView({ behavior: "smooth"});
 		}
 	};
-	chat &&
-		onSnapshot(doc(db, "Chats", chat.id), (change) => {
-			setChat({ id: change.id, ...change.data() });
-		});
 	useEffect(() => {
-		fetchChat();
-	}, [selected]);
-	const scrollToBottom = () => {
-        console.log("scrolling to bottom");
-		messagesRef.current?.scrollIntoView({ behavior: "smooth" });
-	};
-    useEffect(()=>{
-        scrollToBottom();
-        console.log("messages rerendered");
-    },[])
+		if (chat) {
+			const messagesRef = ref(realtimeDB, `chats/${chat.id}`);
+			onValue(messagesRef, (snapshot) => {
+				setMessages(Object.values(snapshot.val()));
+				const sortedMessages = Object.values(snapshot.val()).sort(
+					(a, b) => a.sentAt - b.sentAt
+				);
+				setMessages(sortedMessages);
+			});
+		}
+		scrollToElement();
+	}, [chat, selected]);
 	return (
 		<>
-			{chat ? (
-				<div className="overflow-y-scroll w-full">
-					{chat.messages.map((message) => {
-						return (
-							<Message
-								key={message}
-								MID={message}
-							/>
-						);
-					})}
-                <div ref={messagesRef} className="h-1 my-2 w-full"></div>
-				</div>
-			) : (
-				"No Messages.."
-			)}
+			<div className="overflow-y-scroll w-full px-4 flex-shrink-0 flex-1 mt-2">
+				{messages == null ? (
+					<div className="h-full w-full flex items-center justify-center">
+						No Messages..Start a new Conversation
+					</div>
+				) : (
+					<>
+						{messages?.map((message, key) => {
+							scrollToElement()
+							return (
+								<div key={key}>
+									<Message
+										obj={message}
+										chat={chat.id}
+									/>
+								</div>
+							);
+						})}
+					</>
+				)}
+				<div ref={divRef} className="pt-2"></div>
+			</div>
 		</>
 	);
 };
