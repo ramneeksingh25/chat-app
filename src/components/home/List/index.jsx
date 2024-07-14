@@ -37,7 +37,7 @@ const List = () => {
 				</span>
 			</div>
 			<div
-				className={`bg-zinc-200/20 dark:bg-zinc-900/20 border-x border-zinc-900/10 px-5 py-3 h-[86%] rounded-xl rounded-t-none overflow-y-scroll`}>
+				className={`bg-zinc-200/20 dark:bg-zinc-900/20 border-x border-zinc-900/10 px-5 py-3 h-[83%] rounded-xl rounded-t-none overflow-y-scroll`}>
 				{viewFriends == 1 && (
 						<FriendList f={friendsList} />
 				)}
