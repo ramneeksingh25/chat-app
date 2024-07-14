@@ -1,26 +1,36 @@
-import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../../config/firebase";
 import Loading from "../../Loading";
 import { useSelector } from "react-redux";
+import { child, get, ref } from "firebase/database";
+import { realtimeDB } from "../../../config/firebase";
 
-const Message = ({ MID }) => {
+const Message = ({ obj,chat }) => {
 	const [sender, setSender] = useState(false);
 	const [message, setMessage] = useState(null);
 	const User = useSelector((state) => state.user);
+	const email = User?.email;
 	const getMessage = async () => {
-		const messageRef = doc(db, "Messages", MID);
-		const messageSnap = await getDoc(messageRef);
-		if (messageSnap.exists()) {
-			setMessage(messageSnap.data());
-			setSender(messageSnap.data().sender === User.email);
-		} else {
-			console.log("Message error");
-		}
+		const dbRef= ref(realtimeDB);
+		// console.log(obj.id);
+		get(child(dbRef, `chats/${chat}/${obj.id}`))
+			.then((snapshot) => {
+				if (snapshot.exists()) {
+					// console.log(snapshot.val());
+					setMessage(snapshot.val());
+					setSender(message.sender === email);
+				} else {
+					console.log("No data available");
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	};
 	useEffect(() => {
-		getMessage();
-	}, []);
+		if(obj) {
+			getMessage();
+		}
+	}, [obj,sender,message]);
 	return message ? (
 		<div
 			className={`w-full select-text my-[5px] flex ${

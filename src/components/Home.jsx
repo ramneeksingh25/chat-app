@@ -70,7 +70,7 @@ const Home = () => {
 		}
 	);
 	const setUserChat = (s) => {
-		console.log("selecting ", s);
+		// console.log("selecting ", s);
 		setSelected(s);
 	};
 	const provider = {
@@ -88,11 +88,11 @@ const Home = () => {
 		<>
 			<userContext.Provider value={provider}>
 				<div className=" h-screen w-[100%] grid grid-cols-4 gap-3 p-2 text-sm sm:text-sm md:text-md lg:text-lg text-indigo-900 dark:text-indigo-200 select-none">
-					<List />
 					<div
 						className={`col-span-3 relative transition-all duration-500`}>
 						<Chats />
 					</div>
+					<List />
 				</div>
 			</userContext.Provider>
 		</>
